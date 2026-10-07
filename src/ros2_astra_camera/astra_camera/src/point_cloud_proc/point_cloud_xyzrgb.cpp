@@ -129,7 +129,8 @@ void PointCloudXyzrgbNode::connectCb() {
   // rgb uses normal ros transport hints.
   image_transport::TransportHints hints(node_, "raw");
   sub_rgb_.subscribe(node_, "color/image_raw", hints.getTransport(), color_qos_profile_);
-  sub_info_.subscribe(node_, "color/camera_info", info_qos_profile_);
+    sub_info_.subscribe(node_, "color/camera_info",
+                     rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(info_qos_profile_), info_qos_profile_));
 }
 
 void PointCloudXyzrgbNode::imageCb(const Image::ConstSharedPtr& depth_msg,
