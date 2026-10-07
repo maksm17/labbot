@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.11)
 
 option(UROSAGENT_GENERATE_PROFILE
   "Generates agent.refs according to the .msgs provided in the .repos" OFF
@@ -34,8 +34,7 @@ find_package(ament_cmake REQUIRED)
 find_package(microxrcedds_agent REQUIRED)
 find_package(rosidl_cmake REQUIRED)
 find_package(fastcdr REQUIRED)
-find_package(fastrtps REQUIRED)
-find_package(fastrtps_cmake_module REQUIRED)
+find_package(fastdds REQUIRED)
 find_package(rmw_dds_common REQUIRED)
 find_package(rmw REQUIRED)
 find_package(rcutils REQUIRED)
@@ -63,22 +62,21 @@ target_include_directories(${PROJECT_NAME}
     include
   )
 
-ament_target_dependencies(${PROJECT_NAME}
-  rosidl_typesupport_fastrtps_cpp
-  rosidl_runtime_cpp
-  rosidl_typesupport_cpp
-  fastcdr
-  fastrtps
-  rmw_dds_common
-  rmw
-  rmw_fastrtps_shared_cpp
-  micro_ros_msgs
+target_link_libraries(${PROJECT_NAME}
+  ${micro_ros_msgs_TARGETS}
+  ${rmw_dds_common_TARGETS}
+  rmw::rmw
+  rmw_dds_common::rmw_dds_common_library
+  rmw_fastrtps_shared_cpp::rmw_fastrtps_shared_cpp
+  rosidl_runtime_cpp::rosidl_runtime_cpp
+  rosidl_typesupport_cpp::rosidl_typesupport_cpp
+  rosidl_typesupport_fastrtps_cpp::rosidl_typesupport_fastrtps_cpp
   )
 
 target_link_libraries(${PROJECT_NAME}
   microxrcedds_agent
   fastcdr
-  fastrtps
+  fastdds
   $<$<BOOL:$<PLATFORM_ID:Linux>>:rt>
   $<$<BOOL:$<PLATFORM_ID:Linux>>:dl>
   )
