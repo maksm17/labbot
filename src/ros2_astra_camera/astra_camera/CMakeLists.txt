@@ -71,6 +71,21 @@ message(STATUS "ORRBEC : ${HOST_PLATFORM}")
 set(ORBBEC_OPENNI2_REDIST
   "${CMAKE_CURRENT_SOURCE_DIR}/openni2_redist/${HOST_PLATFORM}")
 
+function(astra_target_dependencies target)
+  foreach(dep ${ARGN})
+    if(${dep}_TARGETS)
+      target_link_libraries(${target} ${${dep}_TARGETS})
+    else()
+      if(${dep}_INCLUDE_DIRS)
+        target_include_directories(${target} PUBLIC ${${dep}_INCLUDE_DIRS})
+      endif()
+      if(${dep}_LIBRARIES)
+        target_link_libraries(${target} ${${dep}_LIBRARIES})
+      endif()
+    endif()
+  endforeach()
+endfunction()
+
 set(dependencies
   ament_index_cpp
   astra_camera_msgs
@@ -120,7 +135,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   ${GLOG__INCLUDE_DIRS}
   )
 
-ament_target_dependencies(${PROJECT_NAME}
+astra_target_dependencies(${PROJECT_NAME}
   ${dependencies}
   )
 
@@ -147,7 +162,7 @@ target_include_directories(${PROJECT_NAME}_node PUBLIC
   ${GLOG__INCLUDE_DIRS}
   )
 
-ament_target_dependencies(${PROJECT_NAME}_node
+astra_target_dependencies(${PROJECT_NAME}_node
   ${dependencies}
   )
 
@@ -173,7 +188,7 @@ target_include_directories(list_devices_node PUBLIC
   ${GLOG__INCLUDE_DIRS}
   )
 
-ament_target_dependencies(list_devices_node
+astra_target_dependencies(list_devices_node
   ${dependencies}
   )
 target_link_libraries(list_devices_node
@@ -199,7 +214,7 @@ target_include_directories(clean_shm_node PUBLIC
   ${GLOG__INCLUDE_DIRS}
   )
 
-ament_target_dependencies(clean_shm_node
+astra_target_dependencies(clean_shm_node
   ${dependencies}
   )
 
