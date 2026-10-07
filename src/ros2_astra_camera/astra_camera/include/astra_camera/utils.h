@@ -15,7 +15,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <Eigen/Dense>
-#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Quaternion.hpp>
 
 #include <glog/logging.h>
 #include <openni2/OpenNI.h>

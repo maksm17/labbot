@@ -19,9 +19,9 @@
 #include <cv_bridge/cv_bridge.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 #include <sensor_msgs/point_cloud2_iterator.hpp>
-#include <tf2_ros/static_transform_broadcaster.h>
-#include <tf2_ros/transform_broadcaster.h>
-#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/static_transform_broadcaster.hpp>
+#include <tf2_ros/transform_broadcaster.hpp>
+#include <tf2/LinearMath/Quaternion.hpp>
 #include <std_srvs/srv/set_bool.hpp>
 #include <sensor_msgs/msg/camera_info.hpp>
 #include <sensor_msgs/distortion_models.hpp>
